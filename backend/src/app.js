@@ -23,6 +23,9 @@ app.use('/api/assignments', assignmentRoutes);
 const queryRoutes = require('./routes/queryRoutes');
 app.use('/api/query', queryRoutes);
 
+const hintRoutes = require('./routes/hintRoutes');
+app.use('/api/hint', hintRoutes);
+
 
 // Health check
 app.get('/api/health', (req, res) => {
