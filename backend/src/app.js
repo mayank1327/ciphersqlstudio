@@ -19,6 +19,11 @@ app.use(express.urlencoded({ extended: true }));
 
 const assignmentRoutes = require('./routes/assignmentRoutes');
 app.use('/api/assignments', assignmentRoutes);
+
+const queryRoutes = require('./routes/queryRoutes');
+app.use('/api/query', queryRoutes);
+
+
 // Health check
 app.get('/api/health', (req, res) => {
   res.json({
