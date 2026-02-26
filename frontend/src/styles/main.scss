@@ -1,10 +1,10 @@
 // Import order matters
-@import 'variables';
-@import 'mixins';
-@import 'reset';
+@use 'variables';
+@use 'mixins';
+@use 'reset';
 
 // Component styles (baad mein add honge)
-@import 'components/navbar';
-@import 'components/assignment-list';
-@import 'components/attempt-page';
-@import 'components/loader';
+@use 'components/navbar';
+@use 'components/assignment-list';
+@use 'components/attempt-page';
+@use 'components/loader';

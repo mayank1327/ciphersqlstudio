@@ -1,5 +1,6 @@
-@import '../variables';
-@import '../mixins';
+@use '../variables' as *;
+@use '../mixins' as *;
+@use 'sass:color';
 
 .attempt-page {
   height: calc(100vh - 57px);
@@ -171,7 +172,7 @@
     padding: $spacing-xs $spacing-md;
 
     &:hover:not(:disabled) {
-      background: darken($success, 8%);
+        background: color.adjust($success, $lightness: -8%);
     }
   }
 
