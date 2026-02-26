@@ -1,0 +1,88 @@
+@import 'variables';
+
+// Mobile first responsive breakpoints
+@mixin tablet {
+  @media (min-width: #{$tablet}) {
+    @content;
+  }
+}
+
+@mixin laptop {
+  @media (min-width: #{$laptop}) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (min-width: #{$desktop}) {
+    @content;
+  }
+}
+
+// Flex helpers
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+// Card style
+@mixin card {
+  background: $bg-card;
+  border: 1px solid $border;
+  border-radius: $radius-lg;
+  padding: $spacing-lg;
+}
+
+// Difficulty badge
+@mixin difficulty-badge($color) {
+  background: rgba($color, 0.15);
+  color: $color;
+  border: 1px solid rgba($color, 0.3);
+  padding: $spacing-xs $spacing-sm;
+  border-radius: $radius-sm;
+  font-size: $text-xs;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+// Scrollbar styling
+@mixin custom-scrollbar {
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  &::-webkit-scrollbar-track {
+    background: $bg-dark;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: $border;
+    border-radius: 3px;
+  }
+}
+
+// Button base
+@mixin button-base {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-sm;
+  padding: $spacing-sm $spacing-md;
+  border-radius: $radius-md;
+  font-size: $text-sm;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: $transition;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}

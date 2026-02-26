@@ -1,0 +1,38 @@
+@import '../variables';
+@import '../mixins';
+
+.navbar {
+  background: $bg-card;
+  border-bottom: 1px solid $border;
+  padding: $spacing-md $spacing-lg;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+
+  &__inner {
+    @include flex-between;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  &__brand {
+    font-size: $text-lg;
+    font-weight: 700;
+    color: $primary;
+    letter-spacing: -0.5px;
+
+    span {
+      color: $text-primary;
+    }
+  }
+
+  &__subtitle {
+    font-size: $text-xs;
+    color: $text-muted;
+    display: none;
+
+    @include tablet {
+      display: block;
+    }
+  }
+}

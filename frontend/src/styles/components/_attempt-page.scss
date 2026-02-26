@@ -1,0 +1,305 @@
+@import '../variables';
+@import '../mixins';
+
+.attempt-page {
+  height: calc(100vh - 57px);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+
+  @include laptop {
+    flex-direction: row;
+  }
+
+  // Left panel — Question + Sample Data
+  &__left {
+    width: 100%;
+    overflow-y: auto;
+    border-bottom: 1px solid $border;
+    @include custom-scrollbar;
+
+    @include laptop {
+      width: 35%;
+      border-bottom: none;
+      border-right: 1px solid $border;
+    }
+  }
+
+  // Right panel — Editor + Results
+  &__right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+}
+
+// Question Panel
+.question-panel {
+  padding: $spacing-lg;
+  border-bottom: 1px solid $border;
+
+  &__back {
+    @include button-base;
+    background: transparent;
+    color: $text-secondary;
+    padding: $spacing-xs $spacing-sm;
+    margin-bottom: $spacing-md;
+    font-size: $text-sm;
+
+    &:hover {
+      color: $text-primary;
+    }
+  }
+
+  &__meta {
+    @include flex-between;
+    margin-bottom: $spacing-md;
+  }
+
+  &__difficulty {
+    &--Easy { @include difficulty-badge($easy); }
+    &--Medium { @include difficulty-badge($medium); }
+    &--Hard { @include difficulty-badge($hard); }
+  }
+
+  &__title {
+    font-size: $text-lg;
+    font-weight: 700;
+    color: $text-primary;
+    margin-bottom: $spacing-md;
+    line-height: 1.4;
+  }
+
+  &__question {
+    font-size: $text-sm;
+    color: $text-secondary;
+    line-height: 1.7;
+    background: $bg-input;
+    padding: $spacing-md;
+    border-radius: $radius-md;
+    border-left: 3px solid $primary;
+  }
+}
+
+// Sample Data Viewer
+.sample-data {
+  padding: $spacing-lg;
+
+  &__title {
+    font-size: $text-sm;
+    font-weight: 600;
+    color: $text-secondary;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: $spacing-md;
+  }
+
+  &__table-name {
+    font-size: $text-sm;
+    font-weight: 600;
+    color: $primary;
+    margin-bottom: $spacing-sm;
+    margin-top: $spacing-md;
+
+    &:first-of-type {
+      margin-top: 0;
+    }
+  }
+
+  &__table-wrapper {
+    overflow-x: auto;
+    border-radius: $radius-md;
+    border: 1px solid $border;
+    @include custom-scrollbar;
+  }
+
+  &__table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: $text-xs;
+
+    th {
+      background: $bg-input;
+      color: $text-secondary;
+      padding: $spacing-sm $spacing-md;
+      text-align: left;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    td {
+      padding: $spacing-sm $spacing-md;
+      color: $text-primary;
+      border-top: 1px solid $border;
+      white-space: nowrap;
+    }
+
+    tr:hover td {
+      background: rgba($primary, 0.05);
+    }
+  }
+}
+
+// SQL Editor
+.sql-editor {
+  border-bottom: 1px solid $border;
+
+  &__header {
+    @include flex-between;
+    padding: $spacing-sm $spacing-md;
+    background: $bg-card;
+    border-bottom: 1px solid $border;
+  }
+
+  &__title {
+    font-size: $text-sm;
+    font-weight: 600;
+    color: $text-secondary;
+  }
+
+  &__actions {
+    display: flex;
+    gap: $spacing-sm;
+  }
+
+  &__run-btn {
+    @include button-base;
+    background: $success;
+    color: white;
+    font-size: $text-xs;
+    padding: $spacing-xs $spacing-md;
+
+    &:hover:not(:disabled) {
+      background: darken($success, 8%);
+    }
+  }
+
+  &__hint-btn {
+    @include button-base;
+    background: $bg-input;
+    color: $warning;
+    border: 1px solid rgba($warning, 0.3);
+    font-size: $text-xs;
+    padding: $spacing-xs $spacing-md;
+
+    &:hover:not(:disabled) {
+      background: rgba($warning, 0.1);
+    }
+  }
+}
+
+// Results Panel
+.results-panel {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+
+  &__header {
+    padding: $spacing-sm $spacing-md;
+    background: $bg-card;
+    border-bottom: 1px solid $border;
+
+    span {
+      font-size: $text-sm;
+      font-weight: 600;
+      color: $text-secondary;
+    }
+  }
+
+  &__content {
+    flex: 1;
+    overflow: auto;
+    padding: $spacing-md;
+    @include custom-scrollbar;
+  }
+
+  &__empty {
+    @include flex-center;
+    flex-direction: column;
+    gap: $spacing-md;
+    height: 100%;
+    color: $text-muted;
+    font-size: $text-sm;
+  }
+
+  &__error {
+    background: rgba($error, 0.1);
+    border: 1px solid rgba($error, 0.3);
+    border-radius: $radius-md;
+    padding: $spacing-md;
+    color: $error;
+    font-size: $text-sm;
+    font-family: monospace;
+  }
+
+  &__success {
+    font-size: $text-xs;
+    color: $success;
+    margin-bottom: $spacing-md;
+  }
+
+  &__table-wrapper {
+    overflow-x: auto;
+    border-radius: $radius-md;
+    border: 1px solid $border;
+    @include custom-scrollbar;
+  }
+
+  &__table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: $text-sm;
+
+    th {
+      background: $bg-input;
+      color: $primary;
+      padding: $spacing-sm $spacing-md;
+      text-align: left;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    td {
+      padding: $spacing-sm $spacing-md;
+      color: $text-primary;
+      border-top: 1px solid $border;
+      white-space: nowrap;
+    }
+
+    tr:hover td {
+      background: rgba($primary, 0.05);
+    }
+  }
+}
+
+// Hint Panel
+.hint-panel {
+  margin: $spacing-md;
+  padding: $spacing-md;
+  background: rgba($warning, 0.08);
+  border: 1px solid rgba($warning, 0.25);
+  border-radius: $radius-md;
+
+  &__title {
+    font-size: $text-xs;
+    font-weight: 700;
+    color: $warning;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: $spacing-sm;
+  }
+
+  &__text {
+    font-size: $text-sm;
+    color: $text-secondary;
+    line-height: 1.7;
+  }
+
+  &__loading {
+    font-size: $text-sm;
+    color: $text-muted;
+    font-style: italic;
+  }
+}
