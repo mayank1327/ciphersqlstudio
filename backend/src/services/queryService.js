@@ -34,9 +34,8 @@ class QueryService {
       // Insert rows if any
       if (table.rows && table.rows.length > 0) {
         for (const row of table.rows) {
-          const rowData = row.data;
-          const keys = Object.keys(rowData);
-          const values = Object.values(rowData);
+          const keys = Object.keys(row);
+          const values = Object.values(row);
           const placeholders = keys.map((_, i) => `$${i + 1}`).join(', ');
 
           const insertQuery = `
@@ -54,24 +53,27 @@ class QueryService {
 
   // Block dangerous SQL commands
   sanitizeQuery(sqlQuery) {
-    const query = sqlQuery.trim().toUpperCase();
-
+    // Pehle comments remove karo
+    const withoutComments = sqlQuery
+      .replace(/--.*$/gm, '')  // single line comments remove karo
+      .replace(/\/\*[\s\S]*?\*\//g, '')  // multi line comments remove karo
+      .trim();
+  
+    if (!withoutComments) {
+      const error = new Error('Please write a SQL query');
+      error.status = 400;
+      throw error;
+    }
+  
+    const query = withoutComments.toUpperCase();
+  
     const blockedKeywords = [
-      'DROP',
-      'DELETE',
-      'TRUNCATE',
-      'INSERT',
-      'UPDATE',
-      'ALTER',
-      'CREATE',
-      'GRANT',
-      'REVOKE',
-      'EXEC',
-      'EXECUTE'
+      'DROP', 'DELETE', 'TRUNCATE', 'INSERT',
+      'UPDATE', 'ALTER', 'CREATE', 'GRANT',
+      'REVOKE', 'EXEC', 'EXECUTE'
     ];
-
+  
     for (const keyword of blockedKeywords) {
-      // Check if query starts with blocked keyword
       if (query.startsWith(keyword)) {
         const error = new Error(
           `Query contains blocked keyword: ${keyword}. Only SELECT queries are allowed.`
@@ -81,16 +83,16 @@ class QueryService {
         throw error;
       }
     }
-
-    // Only allow SELECT queries
+  
     if (!query.startsWith('SELECT') && !query.startsWith('WITH')) {
       const error = new Error('Only SELECT queries are allowed');
       error.status = 400;
       error.code = 'INVALID_QUERY_TYPE';
       throw error;
     }
-
-    return sqlQuery.trim();
+  
+    // Comments removed version return karo
+    return withoutComments.trim();
   }
 
   // ==================== MAIN EXECUTE FUNCTION ====================

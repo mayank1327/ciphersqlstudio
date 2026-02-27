@@ -9,14 +9,7 @@ const columnSchema = new mongoose.Schema({
   dataType: {
     type: String,
     required: true,
-    enum: ['INTEGER', 'TEXT', 'REAL', 'BOOLEAN', 'DATE'],
-  }
-}, { _id: false });
-
-const rowSchema = new mongoose.Schema({
-  data: {
-    type: mongoose.Schema.Types.Mixed,
-    required: true
+    enum: ['INTEGER', 'TEXT', 'REAL', 'BOOLEAN', 'DATE', 'TIMESTAMP']
   }
 }, { _id: false });
 
@@ -24,10 +17,14 @@ const sampleTableSchema = new mongoose.Schema({
   tableName: {
     type: String,
     required: true,
-    trim: true
+    trim: true,
+    lowercase: true
   },
   columns: [columnSchema],
-  rows: [rowSchema]
+  rows: {
+    type: [mongoose.Schema.Types.Mixed],  // Direct array of objects
+    default: []
+  }
 }, { _id: false });
 
 const assignmentSchema = new mongoose.Schema({
@@ -52,6 +49,7 @@ const assignmentSchema = new mongoose.Schema({
     trim: true
   },
   sampleTables: [sampleTableSchema],
+  
   expectedOutput: {
     type: {
       type: String,
@@ -63,8 +61,6 @@ const assignmentSchema = new mongoose.Schema({
       required: true
     }
   }
-}, {
-  timestamps: true
-});
+}, { timestamps: true});
 
 module.exports = mongoose.model('Assignment', assignmentSchema);

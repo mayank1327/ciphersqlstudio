@@ -14,32 +14,41 @@ class HintService {
       return `Table "${table.tableName}": ${columns}`;
     }).join('\n');
 
-    const prompt = `You are a SQL tutor helping a student learn SQL.
+    const prompt = `You are a friendly SQL tutor helping a beginner student.
 
-ASSIGNMENT QUESTION:
-${question}
+    ASSIGNMENT QUESTION:
+    ${question}
+    
+    AVAILABLE TABLE STRUCTURE:
+    ${tableContext}
+    
+    STUDENT'S CURRENT QUERY:
+    ${sqlQuery || 'Student has not written anything yet'}
+    
+    ANALYZE the student's query and give a hint based on these cases:
+    
+    CASE 1 - Student wrote nothing or just comment:
+    → Tell them which SQL clause to START with
+    
+    CASE 2 - Student wrote partial query (only SELECT):
+    → Tell them what's MISSING next (WHERE/GROUP BY/JOIN etc.)
+    
+    CASE 3 - Student wrote wrong logic:
+    → Point out specifically what concept they're missing
+    
+    RULES:
+    - Maximum 2 sentences
+    - Never write SQL code
+    - Never give the answer
+    - Be specific to THEIR query, not generic
+    - Use simple English, student is a beginner
 
-AVAILABLE TABLES:
-${tableContext}
-
-STUDENT'S CURRENT QUERY:
-${sqlQuery || 'Student has not written any query yet'}
-
-YOUR TASK:
-Give a SHORT hint (2-3 sentences maximum) that:
-- Guides the student's thinking in right direction
-- Points to which SQL concept they should use
-- Does NOT reveal the actual solution or write any SQL code
-- Is encouraging and educational
-
-STRICT RULES:
-- Never write the complete SQL query
-- Never show the expected output
-- Keep hint under 3 sentences
-- Be specific to their current query if they wrote one
-
-Hint:`;
-
+    IMPORTANT RULE:
+    - If student is using ORDER BY + LIMIT approach, 
+      warn them it might miss tied values
+    - Guide them toward MAX() or subquery approach
+    
+    Your hint:`;
     try {
       const completion = await groq.chat.completions.create({
         messages: [{ role: 'user', content: prompt }],

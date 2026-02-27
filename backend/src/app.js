@@ -3,6 +3,13 @@ const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
 
+const assignmentRoutes = require('./routes/assignmentRoutes');
+const queryRoutes = require('./routes/queryRoutes');
+const hintRoutes = require('./routes/hintRoutes');
+
+const notFound = require('./middleware/notFound');
+const errorHandler = require('./middleware/errorHandler');
+
 const app = express();
 
 // Security + Logging middleware
@@ -12,22 +19,10 @@ app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Routes (baad mein add honge)
-// app.use('/api/assignments', assignmentRoutes);
-// app.use('/api/query', queryRoutes);
-// app.use('/api/hint', hintRoutes);
 
-const assignmentRoutes = require('./routes/assignmentRoutes');
 app.use('/api/assignments', assignmentRoutes);
-
-const queryRoutes = require('./routes/queryRoutes');
 app.use('/api/query', queryRoutes);
-
-const hintRoutes = require('./routes/hintRoutes');
 app.use('/api/hint', hintRoutes);
-
-
-// Health check
 app.get('/api/health', (req, res) => {
   res.json({
     status: 'OK',
@@ -38,11 +33,9 @@ app.get('/api/health', (req, res) => {
 });
 
 // 404 handler
-const notFound = require('./middleware/notFound');
 app.use(notFound);
 
 // Error handler
-const errorHandler = require('./middleware/errorHandler');
 app.use(errorHandler);
 
 module.exports = app;

@@ -40,7 +40,7 @@ const SampleDataViewer = ({ sampleTables }) => {
                     <tr key={i}>
                       {table.columns.map((col, j) => (
                         <td key={j}>
-                          {row.data[col.columnName] ?? '-'}
+                          {row[col.columnName] ?? '-'}
                         </td>
                       ))}
                     </tr>
