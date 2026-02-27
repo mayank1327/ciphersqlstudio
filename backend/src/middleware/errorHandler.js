@@ -1,29 +1,40 @@
 const errorHandler = (err, req, res, next) => {
-    console.error('🔥 Error:', err.message);
-  
-    // Mongoose validation error
-    if (err.name === 'ValidationError') {
-      const messages = Object.values(err.errors).map(val => val.message);
-      return res.status(400).json({
-        success: false,
-        error: messages.join(', ')
-      });
-    }
-  
-    // Duplicate key error
-    if (err.code === 11000) {
-      const field = Object.keys(err.keyValue);
-      return res.status(409).json({
-        success: false,
-        error: `${field} already exists`
-      });
-    }
-  
-    // Default error
-    res.status(err.statusCode || err.status || 500).json({
+  if (process.env.NODE_ENV !== 'test') {
+    console.error(err.stack);
+  }
+
+  // Mongoose validation error
+  if (err.name === 'ValidationError') {
+    const messages = Object.values(err.errors).map(val => val.message);
+    return res.status(400).json({
       success: false,
-      error: err.message || 'Internal Server Error'
+      error: messages.join(', ')
     });
-  };
-  
-  module.exports = errorHandler;
+  }
+
+  // Mongoose duplicate key error
+  if (err.code === 11000) {
+    const field = Object.keys(err.keyValue)[0];
+    return res.status(409).json({
+      success: false,
+      error: `${field} already exists`
+    });
+  }
+
+  // Mongoose invalid ObjectId
+  if (err.name === 'CastError') {
+    return res.status(400).json({
+      success: false,
+      error: `Invalid ${err.path}: ${err.value}`
+    });
+  }
+
+  // All other errors — custom or unexpected
+  const statusCode = err.statusCode || err.status || 500;
+  res.status(statusCode).json({
+    success: false,
+    error: err.message || 'Internal Server Error'
+  });
+};
+
+module.exports = errorHandler;
