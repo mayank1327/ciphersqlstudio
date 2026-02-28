@@ -286,7 +286,7 @@ PORT=5000
 NODE_ENV=development
 
 # MongoDB
-MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/ciphersqlstudio
+MONGODB_URI=your_mongodb_atlas_uri_here
 
 # PostgreSQL
 PG_HOST=localhost
