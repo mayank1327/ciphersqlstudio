@@ -59,6 +59,7 @@ CipherSQLStudio is a SQL practice sandbox — think of it like a playground wher
 
 ## Architecture
 
+```
 ┌─────────────────────────────────┐
 │   React Frontend (port 5173)    │
 │   Vite Dev Server               │
@@ -96,6 +97,7 @@ CipherSQLStudio is a SQL practice sandbox — think of it like a playground wher
 │ Llama   │              
 │ 3.3 70B │              
 └─────────┘
+```
 
 ### Why Two Databases?
 
