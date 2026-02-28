@@ -59,14 +59,43 @@ CipherSQLStudio is a SQL practice sandbox — think of it like a playground wher
 
 ## Architecture
 
-```
-React Frontend (port 3000)
-        ↕  /api proxy
-Express Backend (port 5000)
-   ↕              ↕              ↕
-MongoDB        PostgreSQL      Groq API
-(assignments)  (sandbox)       (hints)
-```
+┌─────────────────────────────────┐
+│   React Frontend (port 5173)    │
+│   Vite Dev Server               │
+└──────────────┬──────────────────┘
+               │ /api proxy
+               ↓
+┌─────────────────────────────────┐
+│   Express Backend (port 3000)   │
+│                                 │
+│  Routes → Controllers           │
+│  Services → Repositories        │
+│                                 │
+│  Middleware:                    │
+│  • Joi Validation               │
+│  • Rate Limiter                 │
+│  • Error Handler                │
+└────┬──────────────┬─────────────┘
+     │              │              
+     ↓              ↓              
+┌─────────┐    ┌──────────────────────────────────┐
+│ MongoDB │    │ PostgreSQL                       │
+│ Atlas   │    │                                  │
+│         │    │  sandbox_timestamp_random        │
+│Assignments   │  ├── CREATE SCHEMA               │
+│ title   │    │  ├── CREATE TABLE + INSERT rows  │
+│ question│    │  ├── Execute student query        │
+│ tables  │    │  └── DROP SCHEMA CASCADE         │
+│ rows    │    └──────────────────────────────────┘
+└─────────┘              
+                         
+     ↓                   
+┌─────────┐              
+│  Groq   │              
+│  API    │              
+│ Llama   │              
+│ 3.3 70B │              
+└─────────┘
 
 ### Why Two Databases?
 
