@@ -282,7 +282,7 @@ Rate limit: 10 requests per minute per IP
 
 ```bash
 # Server
-PORT=5000
+PORT=3000
 NODE_ENV=development
 
 # MongoDB
@@ -439,5 +439,4 @@ React state update → ResultsPanel re-renders with table
 - GitHub: [@mayank1327](https://github.com/mayank1327)
 - Email: mayankmehta1327@gmail.com
 
----
-*Built as part of CipherSchools MERN Stack Internship Assignment*
+
